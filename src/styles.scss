@@ -1,0 +1,80 @@
+.App {
+    font-family: sans-serif;
+    text-align: center;
+  }
+  
+  .List {
+    list-style-type: none;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+
+    li {
+      display: flex;
+      flex: 1;
+      margin-bottom: 20px;
+
+      img {
+        transition: transform linear 0.33s;
+      }
+
+      &.top {
+        flex-direction: column;
+        img {
+          transform: rotate(270deg);
+        }
+      }
+
+      &.left {
+        flex-direction: row;
+        img {
+          transform: rotate(180deg);
+        }
+      }
+
+      &.bottom {
+        flex-direction: column-reverse;
+        img {
+          transform: rotate(90deg);
+        }
+      }
+
+      &.right {
+        flex-direction: row-reverse;
+      }
+      
+      .title {
+        display: inline-block;
+        min-width: 200px;
+        text-align: left;
+        cursor: pointer;
+        h3 {
+          display: inline-block;
+        }
+      }
+
+      .text {
+        text-align: left;
+        transition: max-height ease-in-out 0.5s;
+        overflow: hidden;
+        &.expanded {
+          max-height: 400px;
+        }
+        
+        &.collapsed {
+          max-height: 0;
+        }
+      }
+    }
+  }
+  
+  .hand {
+    background-image: url("/images/hand.png");
+    background-size: contain;
+    background-position: center;
+    width: 35px;
+    height: 30px;
+    border: 1px solid red;
+    transition: rotate linear 0.5s;
+  }
+  
