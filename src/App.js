@@ -1,39 +1,60 @@
 import React, { useState } from "react";
 import "./styles.scss";
 import List from "./components/List";
+import ListItem from "./components/ListItem";
 
-const listItems = [
-    {
-        title: "First list item",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum... "
-    },
-    {
-        title: "Second list item",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cup laborum... "
-    },
-    {
-        title: "First list item",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum... "
-    },
-    {
-        title: "First list item",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum... "
-    }
-];
+import data from "./data.json";
 
 export default function App() {
     const [position, setPosition] = useState("top");
     const availableOptions = ["top", "right", "bottom", "left"];
+    let flexDirection, pointerAngles;
+    switch (position) {
+        case "top":
+            flexDirection = "column";
+            pointerAngles = { false: "180deg", true: "270deg" };
+            break;
+        case "right":
+            flexDirection = "row-reverse";
+            pointerAngles = { false: "180deg", true: "0" };
+            break;
+        case "bottom":
+            flexDirection = "column-reverse";
+            pointerAngles = { false: "180deg", true: "90deg" };
+            break;
+        case "left":
+            flexDirection = "row";
+            pointerAngles = { false: "0", true: "180deg" };
+            break;
+        default:
+            flexDirection = "column";
+            pointerAngles = { false: "180deg", true: "270deg" };
+    }
+    const renderItem = (title, content, expanded, onTitleClick) => <div className="item-content" style={{ flexDirection }}>
+        <div className="title" onClick={() => onTitleClick(!expanded)}>
+            {flexDirection === "row" ? <h2>{title}</h2> : null}
+            <img src="/images/hand.png" style={{
+                transform: `rotate(${pointerAngles[expanded]})`
+            }}></img>
+            {flexDirection !== "row" ? <h2>{title}</h2> : null}
+        </div>
+        <div className={`content-${expanded ? "expanded" : "collapsed"}`}>{content}</div>
+    </div >
 
     return (
         <div className="App">
-            <select onChange={event => setPosition(event.target.value)}>
-                {availableOptions.map(option => (
-                    <option selected={option === position}>{option}</option>
-                ))}
-            </select>
-            <h1>Custom List, hello</h1>
-            <List items={listItems} titlePosition={position} />
+            <div className="select-option">
+                <div>Select title placement</div>
+                <select onChange={event => setPosition(event.target.value)} value={position}>
+                    {availableOptions.map((option, index) => (
+                        <option key={index}>{option}</option>
+                    ))}
+                </select>
+            </div>
+            <h1>List with title position {position}</h1>
+            <List>
+                {data.map(({ id, title, content }, index) => <ListItem renderItem={renderItem.bind(null, title, content)} key={id} />)}
+            </List>
         </div>
     );
 }
