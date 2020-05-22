@@ -5,12 +5,12 @@ const ListItem = ({ title, content, titlePosition }) => {
     const [expanded, setExpanded] = useState(true);
 
     return (
-        <li className={titlePosition}>
+        <li className={`${titlePosition} ${expanded ? 'expanded' : 'collapsed'}`}>
             <div className="title" onClick={() => setExpanded(!expanded)}>
                 <h3>{title}</h3>
                 <img src="/images/hand.png" alt="" />
             </div>
-            <div className={expanded ? "text expanded" : "text collapsed"}>
+            <div className="text">
                 {content}
             </div>
         </li>

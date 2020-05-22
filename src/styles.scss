@@ -27,6 +27,9 @@
 
       &.left {
         flex-direction: row;
+        .title {
+          flex-direction: row-reverse;
+        }
         img {
           transform: rotate(180deg);
         }
@@ -41,40 +44,43 @@
 
       &.right {
         flex-direction: row-reverse;
+        .title {
+          flex-direction: row-reverse;
+        }
       }
       
       .title {
-        display: inline-block;
+        display: flex;
+        align-items: center;
         min-width: 200px;
         text-align: left;
+        margin-right: 20px;
+        
         cursor: pointer;
         h3 {
           display: inline-block;
         }
+
+        img {
+          object-fit: contain;
+        }
       }
+
+      
 
       .text {
         text-align: left;
-        transition: max-height ease-in-out 0.5s;
+        transition: max-height ease-in-out 0.7s;
         overflow: hidden;
-        &.expanded {
-          max-height: 400px;
-        }
-        
-        &.collapsed {
-          max-height: 0;
-        }
       }
+
+      &.expanded .text {
+        max-height: 400px;
+      }
+      
+      &.collapsed .text {
+        max-height: 0;
+      }
+
     }
   }
-  
-  .hand {
-    background-image: url("/images/hand.png");
-    background-size: contain;
-    background-position: center;
-    width: 35px;
-    height: 30px;
-    border: 1px solid red;
-    transition: rotate linear 0.5s;
-  }
-  
